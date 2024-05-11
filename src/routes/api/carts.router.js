@@ -23,7 +23,7 @@ router.get('/:cid',async (req,res)=>{
     try{
         const {cid} = req.params
         const cart = await cartManager.getCart(cid)
-        // Queda validar por si no encuentra el carrito
+        if(cart.status==="failed") return res.send(cart)
         res.send({status:"success",payload:cart})
     }
     catch(error){
@@ -33,12 +33,12 @@ router.get('/:cid',async (req,res)=>{
 
 //Agregar productos, indicando id cart y id product
 
-router.put('/:cid/product/:pid',async(req,res)=>{
+router.post('/:cid/product/:pid',async(req,res)=>{
     try{
         const {cid,pid} = req.params
         //Presenta un error, es el que más me costó
         await cartManager.updateCart(cid,pid)
-        res.send({status:"success",payload:"Carrito actualizado"})
+        res.send({status:"success",payload:"Producto agregado"})
     }
     catch(error){
         console.log(error)
@@ -46,15 +46,15 @@ router.put('/:cid/product/:pid',async(req,res)=>{
 })
 
 // //Eliminar producto
-router.delete('/:cid',async(req,res)=>{
-    try{
-        const {cid} = req.params
-        const result = await cartManager.deleteProduct(cid)
-        res.send({status:'success',payload:result})
-    }
-    catch(error){
-        console.log(error)
-    }
-})
+// router.delete('/:cid',async(req,res)=>{
+//     try{
+//         const {cid} = req.params
+//         const result = await cartManager.deleteProduct(cid)
+//         res.send({status:'success',payload:result})
+//     }
+//     catch(error){
+//         console.log(error)
+//     }
+// })
 
 module.exports = router

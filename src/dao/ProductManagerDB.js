@@ -1,16 +1,18 @@
 const { productsModel } = require('./models/products.model.js')
+const { mongoose } = require('mongoose')
 
 class ProductManager{
     constructor(){
         this.productsModel = productsModel;
     }
-    async getProducts(){
-        return await this.productsModel.find()
+    async getProducts({limit=9,newPage=1,ord=1}){
+        // return await this.productsModel.find()
+        return await this.productsModel.paginate({},{limit,page:newPage,sort:{price:Number(ord)},lean:true})
     }
     async addProduct(objeto){
         const products = await this.productsModel.find()
         const {title,description,price,thumbnail,code,stock} = objeto
-        objeto.status = true
+        // objeto.status = true
         if(title===""||description===""||price===0||thumbnail===""||code===""||stock===0){
             return {status:'failed', payload:"Rellenar correctamente los campos"}
         }
@@ -32,10 +34,22 @@ class ProductManager{
         return await this.productsModel.updateOne({_id:id},objeto)
     }
     async deleteProduct(id){
-        return await this.productsModel.deleteOne({_id:id})
+        try{
+            const result = await this.productsModel.deleteOne({_id:id})
+            return result
+        }
+        catch(error){
+            return {status:'failed', payload:"Producto no encontrado"}
+        }
     }
     async getProductById(id){
-        return await this.productsModel.find({_id:id})
+        try{
+            const result = await this.productsModel.find({_id:id})
+            return result
+        }
+        catch(error){
+            return {status:'failed', payload:"Producto no encontrado"}
+        }
     }
 }
 

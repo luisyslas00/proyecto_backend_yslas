@@ -1,17 +1,24 @@
 const { Schema, model } = require('mongoose')
+const moongosePaginate = require('mongoose-paginate-v2')
 
 const productsSchema = new Schema({
     title:String,
     description:String,
     price:Number,
     thumbnail:String,
-    status:Boolean,
+    status:{
+        type:Boolean,
+        default: true
+    },
+    category:String,
     code:{
         type: String,
         unique: true
     },
     stock:Number
 })
+
+productsSchema.plugin(moongosePaginate)
 
 const productsModel = model('products',productsSchema)
 

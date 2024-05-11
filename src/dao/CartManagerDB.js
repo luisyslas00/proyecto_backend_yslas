@@ -6,7 +6,13 @@ class CartManager{
         this.cartsModel = cartsModel;
     }
     async getCart(id){
-        return await this.cartsModel.find({_id:id})
+        try{
+            const result = await this.cartsModel.find({_id:id})
+            return result
+        }
+        catch(error){
+            return {status:'failed', payload:"Carrito no encontrado"}
+        }
     }
     async addCart(cart){
         return await this.cartsModel.create(cart)

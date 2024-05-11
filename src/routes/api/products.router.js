@@ -6,17 +6,12 @@ const router = Router()
 
 //Configuración
 
-//Se muestran los productos en la ruta '/api/products', además se trabaja con query ?limit
+//Se muestran los productos en la ruta '/api/products'
 router.get('/',async (req,res)=>{
     try{
-        const products = productManager.getProducts()
-        const productsDB = await products
-        const {limit} = req.query
-        if(limit<productsDB.length){
-            const productsFilter = productsDB.slice(0,Number(limit))
-            return res.send(productsFilter)
-        }
-        res.send(productsDB)
+        const {newPage,limit,ord} = req.query
+        const {docs, totalPages,page,hasPrevPage,hasNextPage,prevPage,nextPage} = await productManager.getProducts({newPage,limit,ord})
+        res.send({status:"success",payload:docs,totalPages,prevPage,nextPage,page,hasPrevPage,hasNextPage})
     }
     catch(error){
         console.log(error)
@@ -28,7 +23,7 @@ router.get('/:pid',async(req,res)=>{
     try{
         const {pid} = req.params
         const product = await productManager.getProductById(pid)
-        //Queda validar si no lo encuentra
+        if(product.status==="failed") return res.send(product)
         res.send({status:'success',payload:product})
     }
     catch(error){
@@ -64,6 +59,7 @@ router.delete('/:pid',async(req,res)=>{
     try{
         const {pid} = req.params
         const result = await productManager.deleteProduct(pid)
+        if(result.status === 'failed') return res.send(result)
         res.send({status:'success',payload:result})
     }
     catch(error){
