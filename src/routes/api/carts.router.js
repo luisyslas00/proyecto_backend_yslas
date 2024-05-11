@@ -36,14 +36,51 @@ router.get('/:cid',async (req,res)=>{
 router.post('/:cid/product/:pid',async(req,res)=>{
     try{
         const {cid,pid} = req.params
-        //Presenta un error, es el que más me costó
-        await cartManager.updateCart(cid,pid)
-        res.send({status:"success",payload:"Producto agregado"})
+        //Verificar si el producto existe, sumarle quantity
+        const result = await cartManager.addProduct(cid,pid)
+        res.send({status:"success",payload:result})
     }
     catch(error){
         console.log(error)
     }
 })
+
+// router.post('/:cid/product/:pid',async(req,res)=>{
+//     try{
+//         const {cid,pid} = req.params
+//         //Presenta un error, es el que más me costó
+//         await cartManager.updateCart(cid,pid)
+//         res.send({status:"success",payload:"Producto agregado"})
+//     }
+//     catch(error){
+//         console.log(error)
+//     }
+// })
+
+// router.post('/:cid/product/:pid',async(req,res)=>{
+//     try{
+//         const {cid,pid} = req.params
+//         const myProducts = {
+//             id:Number(pid),
+//             quantity:1
+//         }
+//         const cartsDB = await cartManager.getCarts()
+//         const searchCart = cartsDB.find(el=>el.id===Number(cid))
+//         if(!searchCart) return res.status(404).send({status:"error",error:"Carrito no encontrado"})
+//         const {products} = searchCart
+//         const searchProduct = products.find(el=>el.id===Number(pid))
+//         if(searchProduct){
+//             searchProduct.quantity +=1
+//         }else{
+//             products.push(myProducts)
+//         }
+//         cartManager.updateCart(cid,searchCart)
+//         res.send({status:"success",payload:products})
+//     }
+//     catch(error){
+//         console.log(error)
+//     }
+// })
 
 // //Eliminar producto
 // router.delete('/:cid',async(req,res)=>{

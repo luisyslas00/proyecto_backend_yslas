@@ -10,7 +10,10 @@ const productsSchema = new Schema({
         type:Boolean,
         default: true
     },
-    category:String,
+    category:{
+        type:String,
+        index:true
+    },
     code:{
         type: String,
         unique: true

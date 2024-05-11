@@ -17,6 +17,11 @@ class CartManager{
     async addCart(cart){
         return await this.cartsModel.create(cart)
     }
+    async addProduct(cid,pid){
+        const searchCart = await this.cartsModel.findOne({"_id":cid})
+        searchCart.products.push({product:pid,quantity:1})
+        const resp = await this.cartsModel.findByIdAndUpdate({"_id":cid},searchCart)
+    }
     async updateCart(cid,pid){
         const searchCart = await this.cartsModel.findById({"_id":cid})
         if(!searchCart) return res.status(404).send({status:"error",error:"Carrito no encontrado"})
