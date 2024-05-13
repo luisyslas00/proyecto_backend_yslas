@@ -2,7 +2,9 @@ const { Router } = require('express')
 const { uploader } = require('../utils/multer')
 const MessageManager = require('../dao/MessageManagerDB.js')
 const ProductManager = require('../dao/ProductManagerDB.js')
+const CartManager = require('../dao/CartManagerDB.js')
 
+const cartManager = new CartManager()
 const messageManager = new MessageManager()
 const productManager = new ProductManager()
 
@@ -44,6 +46,16 @@ router.get("/products",async(req,res)=>{
         hasNextPage,
         prevPage,
         nextPage,
+        styles:'styles.css'
+    })
+})
+
+router.get('/carts/:cid',async(req,res)=>{
+    const {cid}=req.params
+    const cart = await cartManager.getCart(cid)
+    const products = cart.products
+    res.render("carts",{
+        products:products,
         styles:'styles.css'
     })
 })

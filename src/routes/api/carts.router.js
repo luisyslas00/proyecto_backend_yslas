@@ -11,14 +11,14 @@ router.post('/',async(req,res)=>{
             "products":[]
         }
         const result = await cartManager.addCart(cart)
-        res.send({status:"success",payload:cart})
+        res.send({status:"success",payload:result})
     }
     catch(error){
         console.log(error)
     }
 })
 
-// //Leer cada carrito
+//Leer cada carrito
 router.get('/:cid',async (req,res)=>{
     try{
         const {cid} = req.params
@@ -36,8 +36,8 @@ router.get('/:cid',async (req,res)=>{
 router.post('/:cid/product/:pid',async(req,res)=>{
     try{
         const {cid,pid} = req.params
-        //Verificar si el producto existe, sumarle quantity
         const result = await cartManager.addProduct(cid,pid)
+        if(result.status==="failed") return res.send(result)
         res.send({status:"success",payload:result})
     }
     catch(error){
@@ -45,53 +45,54 @@ router.post('/:cid/product/:pid',async(req,res)=>{
     }
 })
 
-// router.post('/:cid/product/:pid',async(req,res)=>{
-//     try{
-//         const {cid,pid} = req.params
-//         //Presenta un error, es el que más me costó
-//         await cartManager.updateCart(cid,pid)
-//         res.send({status:"success",payload:"Producto agregado"})
-//     }
-//     catch(error){
-//         console.log(error)
-//     }
-// })
+//Eliminar del carrito el producto seleccionado
+router.delete('/:cid/product/:pid',async(req,res)=>{
+    try{
+        const {cid,pid}=req.params
+        const result = await cartManager.deleteProduct(cid,pid)
+        if(result.status==="failed") return res.send(result)
+        res.send({status:"success",payload:result})
+    }
+    catch(error){
+        console.log(error)
+    }
+})
 
-// router.post('/:cid/product/:pid',async(req,res)=>{
-//     try{
-//         const {cid,pid} = req.params
-//         const myProducts = {
-//             id:Number(pid),
-//             quantity:1
-//         }
-//         const cartsDB = await cartManager.getCarts()
-//         const searchCart = cartsDB.find(el=>el.id===Number(cid))
-//         if(!searchCart) return res.status(404).send({status:"error",error:"Carrito no encontrado"})
-//         const {products} = searchCart
-//         const searchProduct = products.find(el=>el.id===Number(pid))
-//         if(searchProduct){
-//             searchProduct.quantity +=1
-//         }else{
-//             products.push(myProducts)
-//         }
-//         cartManager.updateCart(cid,searchCart)
-//         res.send({status:"success",payload:products})
-//     }
-//     catch(error){
-//         console.log(error)
-//     }
-// })
+//Modificar el carrito con un arreglo de productos
+router.put('/:cid',async(req,res)=>{
+    try{
+        const { cid } = req.params;
+        const newProducts = req.body;
+        const result = await cartManager.updateCart(cid,newProducts)
+        if(result.status==="failed") return res.send(result)
+        res.send({status:"success",payload:result})
+    }
+    catch(error){
+        console.log(error)
+    }
+})
 
-// //Eliminar producto
-// router.delete('/:cid',async(req,res)=>{
-//     try{
-//         const {cid} = req.params
-//         const result = await cartManager.deleteProduct(cid)
-//         res.send({status:'success',payload:result})
-//     }
-//     catch(error){
-//         console.log(error)
-//     }
-// })
+//Actualizar la cantidad del producto que se le pase por req.body
+
+//QUEDA CAMBIAR ESTO
+router.put('/:cid/product/:pid',async(req,res)=>{
+    try{
+        const { cid, pid } = req.params;
+        const newQuantity = req.body.quantity;
+        const result = await cartManager.updateQuantity(cid,pid,newQuantity)
+        if(result.status==="failed") return res.send(result)
+        res.send({status:"success",payload:result})
+    }
+    catch(error){
+        console.log(error)
+    }
+})
+//Eliminar todos los productos del carrito
+router.delete('/:cid',async(req,res)=>{
+    const {cid} = req.params
+    const result = await cartManager.deleteCart(cid)
+    if(result.status==="failed") return res.send(result)
+    res.send({status:"success",payload:result})
+})
 
 module.exports = router
