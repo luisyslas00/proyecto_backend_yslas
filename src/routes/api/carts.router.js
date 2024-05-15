@@ -73,13 +73,13 @@ router.put('/:cid',async(req,res)=>{
 })
 
 //Actualizar la cantidad del producto que se le pase por req.body
-
-//QUEDA CAMBIAR ESTO
 router.put('/:cid/product/:pid',async(req,res)=>{
     try{
         const { cid, pid } = req.params;
         const newQuantity = req.body.quantity;
+        console.log(req.body)
         const result = await cartManager.updateQuantity(cid,pid,newQuantity)
+        console.log(result)
         if(result.status==="failed") return res.send(result)
         res.send({status:"success",payload:result})
     }

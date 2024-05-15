@@ -71,37 +71,29 @@ class CartManager{
         }
     }
     async updateQuantity(cid,pid,newQuantity){
-        // const result = await this.cartsModel.updateOne({ _id: cid, "products.product._id": pid }, { $set: { "products.quantity": newQuantity } });
-        // return result
-        const cart = await this.cartsModel.findById(cid); // Suponiendo que estás utilizando Mongoose
-        const productIndex = cart.products.findIndex(product => product.product === pid);
-        // Si el producto existe en el carrito, actualiza su cantidad
-        if (productIndex !== -1) {
-            cart.products[productIndex].quantity = newQuantity;
-            await cart.save();
+        try{
+            const cart = await this.cartsModel.findById(cid);
+            let productExist=false
+            if(cart){
+                for(const cartProduct of cart.products){
+                    if(cartProduct.product._id.toString()===pid){
+                        cartProduct.quantity+=Number(newQuantity);
+                        productExist=true
+                        break
+                    }
+                }
+                if(!productExist){
+                    cart.products.push({product:pid,quantity:Number(newQuantity)})
+                }
+            }
+            const result = await this.cartsModel.findByIdAndUpdate({"_id":cid},cart)
+            console.log(result)
+            return result
+        }
+        catch(error){
+            return {status:'failed', payload:"Error al actualizar la cantidad"}
         }
     }
 }
 
 module.exports = CartManager
-
-// async updateCart(cid,pid){
-//     const searchCart = await this.cartsModel.findById({"_id":cid})
-//     if(!searchCart) return res.status(404).send({status:"error",error:"Carrito no encontrado"})
-//     const searchProductDB = await productsModel.findById({"_id":pid})
-//     const {products} = searchCart
-//     const searchProduct = products.find(el=>el._id === searchProductDB._id)
-//     console.log(products)
-//     console.log(searchProductDB)
-//     const {_id} = searchProductDB
-//     const myProducts = {
-//         _id,
-//         quantity:1
-//     }
-//     if(searchProduct){
-//         searchProduct.quantity +=1
-//     }else{
-//         products.push(myProducts)
-//     }
-//     return await this.cartsModel.updateOne({_id:cid},searchCart)
-// }
