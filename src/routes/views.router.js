@@ -46,7 +46,8 @@ router.get("/products",async(req,res)=>{
         hasNextPage,
         prevPage,
         nextPage,
-        styles:'styles.css'
+        styles:'styles.css',
+        user:req.session?.user?.email
     })
 })
 
@@ -59,6 +60,14 @@ router.get('/carts/:cid',async(req,res)=>{
         styles:'styles.css'
     })
 })
-//Aquí agrego las vistas de mi página.
-//Para login, register, cart, details product, etc.
+
+router.get('/login',async(req,res)=>{
+    res.render("login")
+})
+
+router.get('/register',async(req,res)=>{
+    res.render("register")
+})
+
+
 module.exports = router
