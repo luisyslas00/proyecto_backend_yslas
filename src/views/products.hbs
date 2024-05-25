@@ -2,10 +2,10 @@
 <div>
     {{#if user}}
     <p>Usuario: {{user}}</p>
+    <a href="/api/sessions/logout">Salir</a>
     {{else}}
     <a href="/login">Ingresar</a>
     {{/if}}
-    <a href="/api/sessions/logout">Salir</a>
 </div>
 <div class="container">
     {{#if productsExist}}
