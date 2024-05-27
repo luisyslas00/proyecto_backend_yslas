@@ -11,7 +11,10 @@ const productManager = new ProductManager()
 const router = Router()
 
 router.get('/',(req,res)=>{
-    res.render('index')
+    res.render('index',{
+        title:"Home | Tienda",
+        styles:'styles.css',
+    })
 })
 
 router.post('/upload-file',uploader.single('myFile'),(req,res)=>{
@@ -25,7 +28,8 @@ router.get("/chat",async(req,res)=>{
         res.render("chat",{
             title:'Chat | Tienda',
             messagesExiste:messages.length!==0,
-            messages
+            messages,
+            styles:'styles.css',
         })
     }
     catch(error){
@@ -47,7 +51,7 @@ router.get("/products",async(req,res)=>{
         prevPage,
         nextPage,
         styles:'styles.css',
-        user:req.session?.user?.email
+        user:req.session?.user?.first_name
     })
 })
 
@@ -62,11 +66,17 @@ router.get('/carts/:cid',async(req,res)=>{
 })
 
 router.get('/login',async(req,res)=>{
-    res.render("login")
+    res.render("login",{
+        title:"Iniciar Sesión | Tienda",
+        styles:'styles.css',
+    })
 })
 
 router.get('/register',async(req,res)=>{
-    res.render("register")
+    res.render("register",{
+        title:"Registrarse | Tienda",
+        styles:'styles.css',
+    })
 })
 
 

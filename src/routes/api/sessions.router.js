@@ -14,6 +14,8 @@ router.post('/login',async(req,res)=>{
     if(password === userFound.password){
         req.session.user = {
             email,
+            first_name:userFound["first_name"],
+            last_name:userFound["last_name"],
             admin: userFound.role === "admin"
         }
         return res.send({status:"success",message:"Login success!"})

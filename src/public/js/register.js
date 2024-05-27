@@ -20,6 +20,7 @@ document.getElementById('formulario').addEventListener('submit', async function(
         if (result.status === 'success') {
             responseDiv.textContent = 'Usuario registrado correctamente';
             responseDiv.style.color = 'green';
+            document.getElementById('formulario').reset()
         } else {
             responseDiv.textContent = `${result.error}`;
             responseDiv.style.color = 'red';

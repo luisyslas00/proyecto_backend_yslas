@@ -1,32 +1,37 @@
-<h1>Products</h1>
-<div>
-    {{#if user}}
-    <p>Usuario: {{user}}</p>
-    <a href="/api/sessions/logout">Salir</a>
-    {{else}}
-    <a href="/login">Ingresar</a>
-    {{/if}}
-</div>
-<div class="container">
-    {{#if productsExist}}
-        <div class="container_products">
-            {{#each products}}
-                <div class="card_product">
-                    <p>Nombre:{{this.title}}</p>
-                    <p>Precio:{{this.price}}</p>
-                    <button id="{{this._id}}">Agregar al carrito</button>
-                </div>
-            {{/each}}
+
+    <div class="user_container">
+        {{#if user}}
+        <p class="user_container_text">Bienvenido/a {{user}}</p>
+        <div class="outer">
+            <a class="button_slide slide_down" href="/api/sessions/logout">Salir</a>
         </div>
-        {{#if hasPrevPage}}
-            <a href="/products?newPage={{prevPage}}">Anterior</a>
+        {{else}}
+        <p class="user_container_text">Usuario: Anónimo</p>
+        <div class="outer">
+            <a class="button_slide slide_down" href="/login">Ingresar</a>
+        </div>
         {{/if}}
-        <p>{{page}}</p>
-        {{#if hasNextPage}}
-            <a href="/products?newPage={{nextPage}}">Siguiente</a>
+    </div>
+    <h1>Products</h1>
+    <div class="container">
+        {{#if productsExist}}
+            <div class="container_products">
+                {{#each products}}
+                    <div class="card_product">
+                        <p class="product_name">{{this.title}}</p>
+                        <p class="product_price">${{this.price}}</p>
+                        <button class="button_add_product" id="{{this._id}}">Agregar al carrito</button>
+                    </div>
+                {{/each}}
+            </div>
+            {{#if hasPrevPage}}
+                <a href="/products?newPage={{prevPage}}">Anterior</a>
+            {{/if}}
+            <p>{{page}}</p>
+            {{#if hasNextPage}}
+                <a href="/products?newPage={{nextPage}}">Siguiente</a>
+            {{/if}}
+        {{else}}
+            <h2>No hay productos</h2>
         {{/if}}
-    {{else}}
-        <h2>No hay productos</h2>
-    {{/if}}
-</div>
- 
+    </div>
