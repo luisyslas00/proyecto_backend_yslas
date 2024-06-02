@@ -21,15 +21,17 @@ document.getElementById('formulario').addEventListener('submit', async function(
             body: JSON.stringify(data)
         });
         const result = await response.json();
-        if (result.status === 'success') {
+        console.log(result)
+        if (result.status === "success") {
             setTimeout(() => {
                 window.location.href = '/products';
             }, 1000);
-        } else {
-            responseDiv.textContent = `${result.error}`;
+        }
+        if(result.status === "error"){
+            responseDiv.textContent = result.message; // Mostrar el mensaje de error devuelto desde el backend
             responseDiv.style.color = 'red';
         }
-    } catch (error) {
+    }catch (error) {
         console.error('Error:', error);
         responseDiv.textContent = 'Ocurrió un error durante el inicio de sesión';
         responseDiv.style.color = 'red';

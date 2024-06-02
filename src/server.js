@@ -10,6 +10,9 @@ const sessionsRouter = require('./routes/api/sessions.router.js')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
+const passport = require('passport')
+const { initializePassport } = require('./config/passport.config.js')
+const { initializePassportGithub } = require('./config/passportgithub.config.js')
 
 const app = express()
 
@@ -42,6 +45,11 @@ app.use(session({
     resave:true,
     saveUninitialized:true
 }))
+//Passport
+initializePassport()
+initializePassportGithub()
+app.use(passport.initialize())
+app.use(passport.session())
 
 //Configurando hbs
 app.engine('hbs',handlebars.engine({
