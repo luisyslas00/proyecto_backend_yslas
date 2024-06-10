@@ -39,6 +39,7 @@ router.get("/chat",async(req,res)=>{
 
 router.get("/products",async(req,res)=>{
     const {newPage,limit,ord} = req.query
+    console.log(req.cookies['token'])
     const {docs, totalPages,page,hasPrevPage,hasNextPage,prevPage,nextPage} = await productManager.getProducts({newPage,limit,ord})
     res.render("products",{
         title:"Productos | Tienda",
@@ -78,6 +79,5 @@ router.get('/register',async(req,res)=>{
         styles:'styles.css',
     })
 })
-
 
 module.exports = router

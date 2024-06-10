@@ -18,3 +18,5 @@
 //     enviarFormulario()
 //     formChat.reset()
 // })
+
+// const socket = io()

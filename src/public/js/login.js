@@ -26,8 +26,7 @@ document.getElementById('formulario').addEventListener('submit', async function(
             setTimeout(() => {
                 window.location.href = '/products';
             }, 1000);
-        }
-        if(result.status === "error"){
+        }else{
             responseDiv.textContent = result.message; // Mostrar el mensaje de error devuelto desde el backend
             responseDiv.style.color = 'red';
         }

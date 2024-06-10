@@ -4,6 +4,7 @@ document.getElementById('formulario').addEventListener('submit', async function(
     const data = {
         first_name: formData.get('first_name'),
         last_name: formData.get('last_name'),
+        age: formData.get('age'),
         email: formData.get('email'),
         password: formData.get('password')
     };
@@ -23,7 +24,7 @@ document.getElementById('formulario').addEventListener('submit', async function(
             responseDiv.style.color = 'green';
             document.getElementById('formulario').reset()
         } else {
-            responseDiv.textContent = `${result.error}`;
+            responseDiv.textContent = `${result.message}`;
             responseDiv.style.color = 'red';
         }
     } catch (error) {
