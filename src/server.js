@@ -43,24 +43,24 @@ const httpServer = app.listen(PORT,error=>{
 const io = new Server(httpServer)
 
 //Session con MONGODB
-// app.use(session({
-//     store:MongoStore.create({
-//         mongoUrl:'mongodb+srv://yslasluis92:QFEiu38g79brJ7PS@ecommerceyslas.m5qjthp.mongodb.net/coderYslas?retryWrites=true&w=majority&appName=EcommerceYslas',
-//         mongoOptions: {
-//             useNewUrlParser:true,
-//             useUnifiedTopology:true,
-//         },
-//         ttl:60*60*1000*3,
-//     }),
-//     secret:'s3cr3t0Y',
-//     resave:true,
-//     saveUninitialized:true
-// }))
+app.use(session({
+    store:MongoStore.create({
+        mongoUrl:'mongodb+srv://yslasluis92:QFEiu38g79brJ7PS@ecommerceyslas.m5qjthp.mongodb.net/coderYslas?retryWrites=true&w=majority&appName=EcommerceYslas',
+        mongoOptions: {
+            useNewUrlParser:true,
+            useUnifiedTopology:true,
+        },
+        ttl:60*60*1000*3,
+    }),
+    secret:'s3cr3t0Y',
+    resave:true,
+    saveUninitialized:true
+}))
 //Passport
 initializePassport()
 initializePassportGithub()
 app.use(passport.initialize())
-// app.use(passport.session())
+app.use(passport.session())
 
 //Configurando hbs
 app.engine('hbs',handlebars.engine({

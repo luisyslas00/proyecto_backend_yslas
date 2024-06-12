@@ -17,7 +17,6 @@ document.getElementById('formulario').addEventListener('submit', async function(
             body: JSON.stringify(data)
         });
         const result = await response.json();
-        console.log(result)
         const responseDiv = document.getElementById('response');
         if (result.status === 'success') {
             responseDiv.textContent = 'Usuario registrado correctamente';

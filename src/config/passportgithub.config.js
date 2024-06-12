@@ -2,9 +2,10 @@ const passport = require('passport')
 const GitHubStrategy = require('passport-github2')
 const UserManager = require('../dao/UserManagerDB.js')
 const { createHash, isValidPassword } = require('../utils/bcrypt')
+const CartManager = require('../dao/CartManagerDB.js')
 
 const userManager = new UserManager()
-
+const cartManager = new CartManager()
 //Creamos la estrategia
 
 const initializePassportGithub = () => {
@@ -14,14 +15,19 @@ const initializePassportGithub = () => {
         callbackURL:'http://localhost:8080/api/sessions/githubcallback'
     },async(accessToken,refreshToken,profile,done)=>{
         try {
-            console.log(profile)
+            // console.log(profile)
             let user = await userManager.getUser({email:profile._json.email})
             if(!user){
+                const newCart = {
+                    "products":[]
+                }
+                const cart = await cartManager.addCart(newCart)
                 let newUser = {
                     first_name:profile._json.name,
                     last_name:'',
                     email:profile._json.email,
-                    password:''
+                    password:'',
+                    cartID:cart._id,
                 }
                 let result = await userManager.createUser(newUser)
                 done(null,result)

@@ -39,7 +39,7 @@ router.get("/chat",async(req,res)=>{
 
 router.get("/products",async(req,res)=>{
     const {newPage,limit,ord} = req.query
-    console.log(req.cookies['token'])
+    // console.log(req.cookies['token'])
     const {docs, totalPages,page,hasPrevPage,hasNextPage,prevPage,nextPage} = await productManager.getProducts({newPage,limit,ord})
     res.render("products",{
         title:"Productos | Tienda",

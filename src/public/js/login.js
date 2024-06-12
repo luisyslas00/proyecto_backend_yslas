@@ -21,7 +21,6 @@ document.getElementById('formulario').addEventListener('submit', async function(
             body: JSON.stringify(data)
         });
         const result = await response.json();
-        console.log(result)
         if (result.status === "success") {
             setTimeout(() => {
                 window.location.href = '/products';

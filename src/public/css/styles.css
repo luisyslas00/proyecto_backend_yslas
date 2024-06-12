@@ -175,7 +175,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
 }
 
 .main_register{
@@ -256,4 +255,19 @@
 
 #response{
     height: 1em;
+}
+
+.btn-github{
+    background-color: gray;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    background-color: #000;
+}
+
+.btn-github a{
+    color: white;
+    padding: 1em;
+    margin-top: 2em;
+    text-decoration: none;
 }
