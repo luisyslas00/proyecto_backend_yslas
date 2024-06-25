@@ -3,16 +3,17 @@ const GitHubStrategy = require('passport-github2')
 const UserManager = require('../dao/UserManagerDB.js')
 const { createHash, isValidPassword } = require('../utils/bcrypt')
 const CartManager = require('../dao/CartManagerDB.js')
-
+const { objectConfig } = require('./config.js')
+const {client_id,client_secret,port} = objectConfig
 const userManager = new UserManager()
 const cartManager = new CartManager()
 //Creamos la estrategia
 
 const initializePassportGithub = () => {
     passport.use('github', new GitHubStrategy({
-        clientID:'Iv23liTBgB80X0rXUIXa',
-        clientSecret:'7334206239940dd7528220cb09371872761c42f3',
-        callbackURL:'http://localhost:8080/api/sessions/githubcallback'
+        clientID:client_id,
+        clientSecret:client_secret,
+        callbackURL:'http://localhost:'+port+'/api/sessions/githubcallback'
     },async(accessToken,refreshToken,profile,done)=>{
         try {
             // console.log(profile)

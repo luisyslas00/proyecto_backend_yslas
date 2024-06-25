@@ -1,13 +1,10 @@
-const { Router } = require('express')
-const MessageManager = require('../../dao/MessageManagerDB.js')
+const { Router } = require('express');
+const { messageController } = require('../../controller/messages.controller');
 
-const messageManager = new MessageManager()
 const router = Router()
 
-router.post('/', async (req, res) => {
-    const mensaje = req.body; 
-    await messageManager.sendMessage(mensaje)
-    res.send("Mensaje enviado")
-});
+const {sendMessage} = new messageController()
+
+router.post('/', sendMessage);
 
 module.exports = router

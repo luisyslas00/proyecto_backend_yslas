@@ -1,69 +1,19 @@
 const { Router } = require('express')
 const { auth } = require('../../middleware/auth.middleware')
-const UserManager = require('../../dao/UserManagerDB')
-const { createHash, isValidPassword } = require('../../utils/bcrypt')
 const passport = require('passport')
-const { generateToken } = require('../../utils/jwt')
 const { passportCall } = require('../../middleware/passportCall.middleware')
-const CartManager = require('../../dao/CartManagerDB')
+const { userController } = require('../../controller/users.controller')
 
 const router = Router()
-const userManager = new UserManager()
-const cartManager = new CartManager()
+const {register,login,logout,current} = new userController
 
 //Register
-router.post('/register',async(req,res)=>{
-    const { first_name,last_name,age,email,password } = req.body
-    if(!password || !email) return res.send({status:'failed',message:'Completar los datos'})
-    const userFound = await userManager.getUser({email})
-    if(userFound) return res.send({status:'failed',message:'Usuario existente'})
-    const newCart = {
-        "products":[]
-    }
-    const cart = await cartManager.addCart(newCart)
-    const newUser = {
-        first_name,
-        last_name,
-        age,
-        email,
-        cartID:cart._id,
-        password: createHash(password)
-    }
-    const result = await userManager.createUser(newUser)
-    const token = generateToken({
-        email,
-        id:result._id,
-        first_name,
-        last_name,
-    })
-    res.cookie('token',token,{
-        maxAge:60*60*1000*24,
-        httpOnly:true
-    }).send({status:'success',message:'Usuario registrado'})
-})
+router.post('/register',register)
 
 //Login
-router.post('/login',async(req,res)=>{
-    const {email,password} =req.body
-    if(!password || !email) return res.send({status:'failed',message:'Completar los datos'})
-    const userFound = await userManager.getUser({email})
-    if(!isValidPassword({password:userFound.password},password)) return res.send({status:'failed',message:'Datos incorrectos'})
-    const token = generateToken({
-        id:userFound._id,
-        email,
-        first_name: userFound.first_name,
-        last_name: userFound.last_name,
-        role:userFound.role
-    })
-    res.cookie('token',token,{
-        maxAge:60*60*1000*24,
-        httpOnly:true
-    })
-    .send({status:'success',message:'Usuario logueado'})
-})
+router.post('/login',login)
 
 //Github
-
 router.get('/github',passport.authenticate('github',{scope:['user:email']}),async(req,res)=>{})
 
 router.get('/githubcallback',passport.authenticate('github',{failureRedirect:'/login'}),async(req,res)=>{
@@ -72,22 +22,46 @@ router.get('/githubcallback',passport.authenticate('github',{failureRedirect:'/l
 })
 
 //Logout
-router.get('/logout',(req,res)=>{
-    req.session.destroy((error)=>{
-        if(error){
-            return res.send({status:"failed",error:error})
-        }else{
-            return res.redirect('/login')
-        }
-    })
-})
+router.get('/logout',logout)
 
 //Current
-router.get('/current',passportCall('jwt'),auth('admin'),(req,res)=>{
-    res.send("Ruta protegida")
-})
+router.get('/current',passportCall('jwt'),auth('admin'),current)
 
 module.exports = router
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // //Register - Passport
 // router.post('/register',passport.authenticate('register',{failureRedirect:'/failregister'}),async(req,res)=>{

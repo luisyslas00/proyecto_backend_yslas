@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken')
+const { objectConfig } = require('../config/config')
+const {private_key} = objectConfig
 
-const PRIVATE_KEY = 'S3CR3T-C0D3R'
+const generateToken = user => jwt.sign(user,private_key,{expiresIn:'24h'})
 
-const generateToken = user => jwt.sign(user,PRIVATE_KEY,{expiresIn:'24h'})
 
 module.exports = {
-    generateToken,
-    PRIVATE_KEY
+    generateToken
 }

@@ -14,6 +14,8 @@ router.get('/',(req,res)=>{
     res.render('index',{
         title:"Home | Tienda",
         styles:'styles.css',
+        cartID:req.session?.user?.cartID,
+        user:req.session?.user?.first_name,
     })
 })
 
@@ -30,6 +32,8 @@ router.get("/chat",async(req,res)=>{
             messagesExiste:messages.length!==0,
             messages,
             styles:'styles.css',
+            cartID:req.session?.user?.cartID,
+            user:req.session?.user?.first_name,
         })
     }
     catch(error){
@@ -39,7 +43,6 @@ router.get("/chat",async(req,res)=>{
 
 router.get("/products",async(req,res)=>{
     const {newPage,limit,ord} = req.query
-    // console.log(req.cookies['token'])
     const {docs, totalPages,page,hasPrevPage,hasNextPage,prevPage,nextPage} = await productManager.getProducts({newPage,limit,ord})
     res.render("products",{
         title:"Productos | Tienda",
@@ -52,7 +55,8 @@ router.get("/products",async(req,res)=>{
         prevPage,
         nextPage,
         styles:'styles.css',
-        user:req.session?.user?.first_name
+        user:req.session?.user?.first_name,
+        cartID:req.session?.user?.cartID,
     })
 })
 
@@ -62,7 +66,9 @@ router.get('/carts/:cid',async(req,res)=>{
     const products = cart.products
     res.render("carts",{
         products:products,
-        styles:'styles.css'
+        styles:'styles.css',
+        cartID:req.session?.user?.cartID,
+        user:req.session?.user?.first_name,
     })
 })
 
@@ -70,6 +76,7 @@ router.get('/login',async(req,res)=>{
     res.render("login",{
         title:"Iniciar Sesión | Tienda",
         styles:'styles.css',
+        cartID:req.session?.user?.cartID
     })
 })
 
@@ -77,6 +84,7 @@ router.get('/register',async(req,res)=>{
     res.render("register",{
         title:"Registrarse | Tienda",
         styles:'styles.css',
+        cartID:req.session?.user?.cartID
     })
 })
 
