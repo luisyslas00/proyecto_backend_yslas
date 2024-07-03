@@ -1,6 +1,6 @@
 const { messagesModel } = require('./models/messages.model.js')
 
-class MessageManager{
+class MessageDaoMongo{
     constructor(){
         this.messagesModel = messagesModel
     }
@@ -12,4 +12,4 @@ class MessageManager{
     }
 }
 
-module.exports = MessageManager
+module.exports = MessageDaoMongo

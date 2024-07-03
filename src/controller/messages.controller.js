@@ -1,4 +1,4 @@
-const { messageService } = require("../service");
+const { messageService } = require("../service/index.js");
 
 class messageController {
     constructor(){

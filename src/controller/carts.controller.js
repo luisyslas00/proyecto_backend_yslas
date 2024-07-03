@@ -1,4 +1,4 @@
-const { cartService } = require("../service")
+const { cartService } = require("../service/index.js")
 
 
 class cartController {

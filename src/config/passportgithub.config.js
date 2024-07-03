@@ -1,12 +1,12 @@
 const passport = require('passport')
 const GitHubStrategy = require('passport-github2')
-const UserManager = require('../dao/UserManagerDB.js')
-const { createHash, isValidPassword } = require('../utils/bcrypt')
-const CartManager = require('../dao/CartManagerDB.js')
+const UserDaoMongo = require('../dao/MONGO/userDao.mongo.js')
+const { createHash, isValidPassword } = require('../utils/bcrypt.js')
+const CartDaoMongo = require('../dao/MONGO/cartDao.mongo.js')
 const { objectConfig } = require('./config.js')
 const {client_id,client_secret,port} = objectConfig
-const userManager = new UserManager()
-const cartManager = new CartManager()
+const userManager = new UserDaoMongo()
+const cartManager = new CartDaoMongo()
 //Creamos la estrategia
 
 const initializePassportGithub = () => {

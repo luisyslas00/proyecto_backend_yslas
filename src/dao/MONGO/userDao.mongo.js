@@ -1,6 +1,6 @@
 const { usersModel } = require('./models/users.model.js')
 
-class UserManager{
+class UserDaoMongo{
     constructor(){
         this.usersModel = usersModel;
     }
@@ -15,4 +15,4 @@ class UserManager{
     }
 }
 
-module.exports = UserManager
+module.exports = UserDaoMongo

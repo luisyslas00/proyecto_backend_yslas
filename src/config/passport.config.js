@@ -1,6 +1,6 @@
 const passport = require('passport')
 const jwt = require('passport-jwt')
-const { objectConfig } = require('./config')
+const { objectConfig } = require('./config.js')
 
 const {private_key}= objectConfig
 const JWTStrategy = jwt.Strategy

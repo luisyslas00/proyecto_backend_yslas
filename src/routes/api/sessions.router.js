@@ -1,8 +1,8 @@
 const { Router } = require('express')
-const { auth } = require('../../middleware/auth.middleware')
+const { auth } = require('../../middleware/auth.middleware.js')
 const passport = require('passport')
-const { passportCall } = require('../../middleware/passportCall.middleware')
-const { userController } = require('../../controller/users.controller')
+const { passportCall } = require('../../middleware/passportCall.middleware.js')
+const { userController } = require('../../controller/users.controller.js')
 
 const router = Router()
 const {register,login,logout,current} = new userController

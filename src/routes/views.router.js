@@ -1,12 +1,12 @@
 const { Router } = require('express')
-const { uploader } = require('../utils/multer')
-const MessageManager = require('../dao/MessageManagerDB.js')
-const ProductManager = require('../dao/ProductManagerDB.js')
-const CartManager = require('../dao/CartManagerDB.js')
+const { uploader } = require('../utils/multer.js')
+const ProductDaoMongo = require('../dao/MONGO/productDao.mongo.js')
+const CartDaoMongo = require('../dao/MONGO/cartDao.mongo.js')
+const MessageDaoMongo = require('../dao/MONGO/messageDao.mongo.js')
 
-const cartManager = new CartManager()
-const messageManager = new MessageManager()
-const productManager = new ProductManager()
+const cartManager = new CartDaoMongo()
+const messageManager = new MessageDaoMongo()
+const productManager = new ProductDaoMongo()
 
 const router = Router()
 

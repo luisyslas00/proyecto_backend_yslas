@@ -10,11 +10,11 @@ const routerApp = require('./routes/index.js')
 const { initializePassport } = require('./config/passport.config.js')
 const { initializePassportGithub } = require('./config/passportgithub.config.js')
 const { Server } = require('socket.io')
-const ProductManager = require('./dao/ProductManagerDB.js')
+const ProductDaoMongo = require('./dao/MONGO/productDao.mongo.js')
 const { objectConfig } = require('./config/config.js')
 
 const {port,session_secret,mongo_url} = objectConfig
-const productManager = new ProductManager()
+const productManager = new ProductDaoMongo()
 
 const app = express()
 

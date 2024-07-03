@@ -1,7 +1,7 @@
 const { productsModel } = require('./models/products.model.js')
 const { mongoose } = require('mongoose')
 
-class ProductManager{
+class ProductDaoMongo{
     constructor(){
         this.productsModel = productsModel;
     }
@@ -53,4 +53,4 @@ class ProductManager{
     }
 }
 
-module.exports = ProductManager
+module.exports = ProductDaoMongo

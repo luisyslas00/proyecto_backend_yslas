@@ -1,6 +1,6 @@
-const { userService, cartService } = require("../service")
-const { createHash, isValidPassword } = require("../utils/bcrypt")
-const { generateToken } = require("../utils/jwt")
+const { userService, cartService } = require("../service/index.js")
+const { createHash, isValidPassword } = require("../utils/bcrypt.js")
+const { generateToken } = require("../utils/jwt.js")
 
 class userController {
     constructor(){
@@ -16,7 +16,7 @@ class userController {
             "products":[]
         }
         const cart = await this.cartService.addCart(newCart)
-        const newUser = {
+        const newUser ={
             first_name,
             last_name,
             age,

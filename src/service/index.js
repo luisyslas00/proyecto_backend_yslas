@@ -1,12 +1,14 @@
-const CartManager = require("../dao/CartManagerDB");
-const MessageManager = require("../dao/MessageManagerDB");
-const ProductManager = require("../dao/ProductManagerDB");
-const UserManager = require("../dao/UserManagerDB");
+const CartDaoMongo = require("../dao/MONGO/cartDao.mongo.js");
+const MessageDaoMongo = require("../dao/MONGO/messageDao.mongo.js");
+const ProductDaoMongo = require("../dao/MONGO/productDao.mongo.js");
+const UserDao = require("../dao/factory.js");
 
-const cartService = new CartManager()
-const messageService = new MessageManager()
-const productService = new ProductManager()
-const userService = new UserManager()
+const UserRepository = require("../repositories/user.repository.js");
+
+const cartService = new CartDaoMongo()
+const messageService = new MessageDaoMongo()
+const productService = new ProductDaoMongo()
+const userService = new UserRepository(new UserDao())
 
 module.exports = {
     cartService,
